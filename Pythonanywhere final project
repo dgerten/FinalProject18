@@ -1,0 +1,58 @@
+X = "X"
+O = "O"
+EMPTY = " "
+TIE = "TIE"
+squares = 9
+
+def sample_board():
+    print(
+    """
+    This is a sample tic-tac-toe board:
+
+                    0 | 1 | 2
+                    ---------
+                    3 | 4 | 5
+                    ---------
+                    6 | 7 | 8
+
+    The number you enter is the number your 'x' or 'o' will go
+    """
+    )
+
+def yes_no(question):
+    response = None
+    while response not in ("y", "n"):
+        response = input(question).lower()
+    return response
+
+def number(question, low, high):
+    response = None
+    while response not in range(low, high):
+        response = int(input(question))
+    return response
+
+def pieces():
+    first = yes_no("Would you like to go first? Answer 'y' for yes and 'n' for no: ")
+    if first == "y":
+        print("\nYou can move first and are 'x'.\n")
+        human = X
+        computer = O
+    else:
+        print("\nYou go second.\n")
+        computer = X
+        human = O
+    return computer, human
+
+def new_board():
+    board = []
+    for square in range(squares):
+        board.append(EMPTY)
+    return board
+
+def real_board(board):
+    """Display game board on screen."""
+    print("\n\t", board[0], "|", board[1], "|", board[2])
+    print("\t","---------")
+    print("\t",board[3], "|", board[4], "|", board[5])
+    print("\t","---------")
+    print("\t",board[6], "|", board[7], "|", board[8])
