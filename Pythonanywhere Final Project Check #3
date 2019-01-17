@@ -1,0 +1,175 @@
+X = "X"
+O = "O"
+EMPTY = " "
+TIE = "TIE"
+squares = 9
+
+def sample_board():
+    print(
+    """
+    This is a sample tic-tac-toe board:
+
+                    0 | 1 | 2
+                    ---------
+                    3 | 4 | 5
+                    ---------
+                    6 | 7 | 8
+
+    -The game is simple; once it is your turn to go just type where you want your 'x' or 'o' to go.
+    -In order to win you must have 3 X's in a row.
+        -They can be either diagnol, horizontal, or vertical lines.
+        -8 wining combos:
+            -0-1-2
+            -0-3-6
+            -1-4-7
+            -2-5-8
+            -3-4-5
+            -6-7-8
+            -0-4-8
+            -2-4-6
+
+    """
+    )
+
+def yes_no(question):
+    response = None
+    while response not in ("y", "n"):
+        response = input(question).lower()
+    return response
+
+def number(question, low, high):
+    response = None
+    while response not in range(low, high):
+        response = int(input(question))
+    return response
+
+def pieces():
+    first = yes_no("Would you like to go first? Answer 'y' for yes and 'n' for no: ")
+    if first == "y":
+        print("\nYou can move first and are 'x'.\n")
+        player = X
+        computer = O
+    else:
+        print("\nYou go second. You are 'o'.\n")
+        computer = X
+        player = O
+    return computer, player
+
+def new_board():
+    board = []
+    for square in range(squares):
+        board.append(EMPTY)
+    return board
+
+def real_board(board):
+    print("\n\t", board[0], "|", board[1], "|", board[2])
+    print("\t","---------")
+    print("\t",board[3], "|", board[4], "|", board[5])
+    print("\t","---------")
+    print("\t",board[6], "|", board[7], "|", board[8])
+
+def correct_moves(board):
+    moves = []
+    for square in range(squares):
+        if board[square] == EMPTY:
+            moves.append(square)
+    return moves
+
+def winner(board):
+    possibilities =((0, 1, 2),
+                    (3, 4, 5),
+                    (6, 7, 8),
+                    (0, 3, 6),
+                    (1, 4, 7),
+                    (2, 5, 8),
+                    (0, 4, 8),
+                    (2, 4, 6))
+    for row in possibilities:
+        if board[row[0]] == board[row[1]] == board[row[2]] != EMPTY:
+            winner = board[row[0]]
+            return winner
+    if EMPTY not in board:
+        return TIE
+
+    return None
+
+def player_move(board, player):
+    correct = correct_moves(board)
+    move = None
+    while move not in correct:
+        move = number("From the allowed numbers, where would you like to move?:", 0, squares)
+        if move not in correct:
+            print("\nChoose a different square that does not have an 'x' or 'o' in it.\n")
+    print("Fine...")
+    return move
+
+def computer_move(board, computer, player):
+    board = board[:]
+    BEST_MOVES = (4, 0, 2, 6, 8, 1, 3, 5, 7)
+
+    print("I will take square number,", end="")
+
+    for move in correct_moves(board):
+        board[move] = computer
+        if winner(board) == computer:
+            print(move)
+            return move
+        board[move] = EMPTY
+
+    for move in correct_moves(board):
+        board[move] = player
+        if winner(board) == player:
+            print(move)
+            return move
+        board[move] = EMPTY
+
+    for move in BEST_MOVES:
+        if move in correct_moves(board):
+            print(move)
+            return move
+
+
+def next_turn(turn):
+    if turn == X:
+        return O
+    else:
+        return X
+
+
+def winner_end(real_winner, computer, player):
+    if real_winner != TIE:
+        print(real_winner, "won!\n")
+    else:
+        print("You tied with the computer.\n")
+
+    if real_winner == computer:
+        print("The computer won the game of Tic Tac Toe and you lost.")
+
+    elif real_winner == player:
+        print("You beat the computer in Tic Tac Toe.")
+
+    elif real_winner == TIE:
+        print("You tied with the computer in Tic Tac Toe.")
+
+def main():
+    sample_board()
+    computer, player = pieces()
+    turn = X
+    board = new_board()
+    real_board(board)
+
+    while not winner(board):
+        if turn == player:
+            move = player_move(board, player)
+            board[move] = player
+        else:
+            move = computer_move(board, computer, player)
+            board[move] = computer
+        real_board(board)
+        turn = next_turn(turn)
+
+    real_winner = winner(board)
+    winner_end(real_winner, computer, player)
+
+main()
+input("\n\nPress the enter key to quit.")
