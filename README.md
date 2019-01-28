@@ -6,6 +6,9 @@ https://repl.it/@dgerten/Final-Code-from-pythonanywhere
 Flowchart:
 https://drive.google.com/file/d/1diWVE2xysyRB_3VwbmJwVL9m0SqUE8ju/view?usp=sharing
 
+Visuals:
+https://docs.google.com/presentation/d/1ZsOZEnRCPI2M4nd1yWxy28D0cHX6yzWl4Okbl4ypzQI/edit?usp=sharing
+
 Sources:
 https://www.programiz.com/python-programming/methods/list/append
 https://inventwithpython.com/tictactoe.py
